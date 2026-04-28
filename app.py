@@ -9,6 +9,7 @@ import shutil
 import tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import asyncio
 import chainlit as cl
 from rag.ingest import make_ephemeral_collection, build_vector_store
 from rag.pipeline import ask
@@ -66,7 +67,7 @@ async def on_message(message: cl.Message):
 
         try:
             async with cl.Step(name="Processing PDF...") as step:
-                build_vector_store(uploaded_pdfs, collection=collection)
+                await asyncio.to_thread(build_vector_store, uploaded_pdfs, collection)
                 step.output = f"Ingested {len(uploaded_pdfs)} file(s)"
             cl.user_session.set("pdf_loaded", True)
             await cl.Message(content=f"✅ **{', '.join(names)}** loaded! Ask me anything about it.").send()
@@ -87,7 +88,7 @@ async def on_message(message: cl.Message):
 
     try:
         async with cl.Step(name="Searching document...") as step:
-            result = ask(question, collection=collection)
+            result = await asyncio.to_thread(ask, question, collection)
             chunks = result["chunks_used"]
             step.output = f"Found {len(chunks)} relevant chunks"
     except Exception as e:
