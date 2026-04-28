@@ -101,7 +101,7 @@ Getting here wasn't instant. Context Precision started at 0.43 — nearly half t
 | Embeddings | SentenceTransformer (all-MiniLM-L6-v2) | Free, runs on CPU |
 | Keyword search | BM25 (rank-bm25) | Exact word + number matching |
 | Reranker | CrossEncoder (ms-marco-MiniLM-L-6-v2) | Accurate relevance scoring |
-| LLM | Groq + Llama 3.3 70B | Free API, fast responses |
+| LLM | Groq + Llama 3.3 70B | Free API, fast responses — with automatic fallback to secondary key |
 | Evaluation | RAGAS | Automatic quality scoring |
 | UI | Chainlit | Built for LLM chat apps |
 | Deployment | HF Spaces + Docker | Free hosting |
@@ -125,8 +125,9 @@ git clone https://github.com/archana-gurimitkala/benefits-copilot
 cd benefits-copilot
 pip install -r requirements.txt
 
-# Add your Groq API key
-echo "GROQ_API_KEY=your_key_here" > .env
+# Add your Groq API key (add a second key as fallback — optional but recommended)
+echo "GROQ_API_KEY=your_primary_key_here" > .env
+echo "GROQ_API_KEY_2=your_fallback_key_here" >> .env
 
 # Ingest the sample document
 python rag/pipeline.py ingest data/sample_benefits_proposal.pdf
