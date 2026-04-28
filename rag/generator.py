@@ -7,11 +7,27 @@ Key features:
 """
 
 import os
-from groq import Groq
+from groq import Groq, RateLimitError
 from dotenv import load_dotenv
 
 load_dotenv()
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+_primary_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+_fallback_client = Groq(api_key=os.getenv("GROQ_API_KEY_2")) if os.getenv("GROQ_API_KEY_2") else None
+
+
+def _chat(messages, model="llama-3.3-70b-versatile", temperature=0.1, max_tokens=800):
+    """Try primary key, fall back to secondary if rate limited."""
+    try:
+        return _primary_client.chat.completions.create(
+            model=model, messages=messages, temperature=temperature, max_tokens=max_tokens
+        )
+    except RateLimitError:
+        if _fallback_client:
+            return _fallback_client.chat.completions.create(
+                model=model, messages=messages, temperature=temperature, max_tokens=max_tokens
+            )
+        raise
 
 
 def build_context(chunks: list[dict]) -> str:
@@ -36,9 +52,7 @@ def generate_answer(question: str, chunks: list[dict]) -> dict:
     """
     context = build_context(chunks)
 
-    response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
-        messages=[
+    response = _chat(messages=[
             {
                 "role": "system",
                 "content": """You are a benefits document assistant. Answer ONLY the specific question asked using ONLY the document chunks provided.
@@ -56,10 +70,7 @@ RULES:
                 "role": "user",
                 "content": f"Document chunks:\n{context}\n\nQuestion: {question}\n\nAnswer (include page citation):",
             },
-        ],
-        temperature=0.1,
-        max_tokens=800,
-    )
+        ])
 
     answer = response.choices[0].message.content.strip()
 
