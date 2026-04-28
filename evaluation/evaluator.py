@@ -49,11 +49,11 @@ TEST_QUESTIONS = [
 
 # Ground truth answers for context_precision
 GROUND_TRUTHS = [
-    "The total annual increase is $23,400 which is +8.2%.",
-    "The employee only monthly premium is $487.00 for medical.",
-    "The recommendations include adding an HDHP with HSA option and reviewing dental rates.",
-    "The dental plan covers preventive care at 100%, basic services at 80%, and major services at 50%.",
-    "The vision plan provides an annual eye exam and $150 allowance for frames or contacts.",
+    "The total annual employer cost increases from $284,400 to $307,800, a total annual increase of $23,400 which is +8.2%.",
+    "The employee only monthly premium for medical (Blue Cross Blue Shield PPO) is $487.00 in 2025, an increase of 8.2% from $450.00 in 2024.",
+    "The key recommendations are: add an HDHP with HSA option, request a rate review from BCBS for the 8.2% medical increase, renew dental rates as-is, consider a Level Funded medical plan, and begin open enrollment communications by October 15.",
+    "The Delta Dental PPO plan covers preventive care at 100% with no deductible, basic services at 80% after a $50 deductible, major services at 50% after deductible, and orthodontia at 50% up to $1,500 lifetime maximum. Annual maximum benefit is $2,000 per person.",
+    "The VSP Vision plan provides an eye exam with $10 copay once per year, $150 allowance for frames once every 2 years, and $150 allowance for contact lenses in lieu of glasses.",
 ]
 
 

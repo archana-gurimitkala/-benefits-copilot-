@@ -11,8 +11,8 @@ from pathlib import Path
 
 CHROMA_PATH = "chroma_db"
 COLLECTION_NAME = "benefits_docs"
-CHUNK_SIZE = 600
-CHUNK_OVERLAP = 100
+CHUNK_SIZE = 400
+CHUNK_OVERLAP = 80
 
 embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
 

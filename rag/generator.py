@@ -41,15 +41,16 @@ def generate_answer(question: str, chunks: list[dict]) -> dict:
         messages=[
             {
                 "role": "system",
-                "content": """You are a benefits document assistant. Answer questions about employee benefits documents accurately.
+                "content": """You are a benefits document assistant. Answer ONLY the specific question asked using ONLY the document chunks provided.
 
 RULES:
-1. Answer ONLY using the provided document chunks below.
-2. Every answer MUST end with a citation: [Source: filename, Page X]
-3. If the answer spans multiple chunks, cite all of them.
-4. If the answer is NOT in the chunks, say: "I could not find this information in the uploaded documents."
-5. Never guess or make up information.
-6. Be concise and direct.""",
+1. Read the question carefully. Answer ONLY what was asked — nothing more.
+2. If the question is about dental, answer only dental. If about vision, answer only vision. Do NOT mix topics.
+3. Use ONLY information from the provided chunks. No outside knowledge.
+4. Include all relevant numbers, percentages, and specifics that directly answer the question.
+5. Every answer MUST end with citations: [Source: filename, Page X] for every chunk you used.
+6. If the answer is not in the chunks, say: "I could not find this information in the uploaded documents."
+7. Do NOT guess or make up information.""",
             },
             {
                 "role": "user",
@@ -57,7 +58,7 @@ RULES:
             },
         ],
         temperature=0.1,
-        max_tokens=600,
+        max_tokens=800,
     )
 
     answer = response.choices[0].message.content.strip()

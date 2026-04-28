@@ -31,7 +31,7 @@ def ask(question: str, top_k: int = 5, collection: chromadb.Collection = None) -
         }
     """
     chunks = hybrid_search(question, top_k=10, collection=collection)
-    chunks = rerank(question, chunks, top_n=top_k)
+    chunks = rerank(question, chunks, top_n=3)
     result = generate_answer(question, chunks)
     result["chunks_used"] = chunks
     return result
