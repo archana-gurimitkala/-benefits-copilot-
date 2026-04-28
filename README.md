@@ -5,7 +5,7 @@ colorFrom: blue
 colorTo: indigo
 sdk: docker
 pinned: false
-short_description: Upload any benefits proposal PDF and ask questions in plain English — no more digging through documents
+short_description: Chat with your benefits documents using AI
 ---
 
 # 📋 Benefits Copilot
