@@ -64,12 +64,15 @@ async def on_message(message: cl.Message):
         names = [os.path.basename(p) for p in uploaded_pdfs]
         await cl.Message(content=f"⏳ Ingesting **{', '.join(names)}**...").send()
 
-        async with cl.Step(name="Processing PDF...") as step:
-            build_vector_store(uploaded_pdfs, collection=collection)
-            step.output = f"Ingested {len(uploaded_pdfs)} file(s)"
-
-        cl.user_session.set("pdf_loaded", True)
-        await cl.Message(content=f"✅ **{', '.join(names)}** loaded! Ask me anything about it.").send()
+        try:
+            async with cl.Step(name="Processing PDF...") as step:
+                build_vector_store(uploaded_pdfs, collection=collection)
+                step.output = f"Ingested {len(uploaded_pdfs)} file(s)"
+            cl.user_session.set("pdf_loaded", True)
+            await cl.Message(content=f"✅ **{', '.join(names)}** loaded! Ask me anything about it.").send()
+        except Exception as e:
+            await cl.Message(content=f"❌ Failed to process PDF: {str(e)}").send()
+            return
 
         if not message.content.strip():
             return
@@ -82,10 +85,14 @@ async def on_message(message: cl.Message):
         await cl.Message(content="⚠️ Please upload a PDF first using the 📎 attachment icon.").send()
         return
 
-    async with cl.Step(name="Searching document...") as step:
-        result = ask(question, collection=collection)
-        chunks = result["chunks_used"]
-        step.output = f"Found {len(chunks)} relevant chunks"
+    try:
+        async with cl.Step(name="Searching document...") as step:
+            result = ask(question, collection=collection)
+            chunks = result["chunks_used"]
+            step.output = f"Found {len(chunks)} relevant chunks"
+    except Exception as e:
+        await cl.Message(content=f"❌ Error generating answer: {str(e)}").send()
+        return
 
     answer = result["answer"]
 
