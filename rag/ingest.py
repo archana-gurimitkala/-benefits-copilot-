@@ -100,7 +100,7 @@ def get_collection() -> chromadb.Collection:
 def make_ephemeral_collection() -> chromadb.Collection:
     """Create a fresh in-memory collection for a single user session."""
     client = chromadb.EphemeralClient()
-    return client.create_collection(name=COLLECTION_NAME)
+    return client.get_or_create_collection(name=COLLECTION_NAME)
 
 
 if __name__ == "__main__":
