@@ -138,6 +138,18 @@ chainlit run app.py
 
 ---
 
+## Screenshots
+
+![Welcome Screen](screenshots/Benefits%201.png)
+
+![PDF Upload & Summary](screenshots/Benefits%202.png)
+
+![Dental Coverage Answer](screenshots/Benefits%203.png)
+
+![Key Recommendations](screenshots/Benefits%204.png)
+
+---
+
 ## Live Demo
 
 [🚀 Try it on Hugging Face Spaces](https://huggingface.co/spaces/Archanacreates/benefits-copilot)
