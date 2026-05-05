@@ -150,6 +150,14 @@ chainlit run app.py
 
 ---
 
+## Scope & Security Note
+
+This is a prototype demonstrating production-grade RAG architecture patterns — hybrid retrieval, reranking, evaluation, per-session isolation, and reliability features. It is not deployed as a HIPAA-compliant system and should not be used with real Protected Health Information.
+
+For deployments handling sensitive employee data, additional layers would be required including authentication, encryption at rest, audit logging, and a Business Associate Agreement with the LLM provider.
+
+---
+
 ## Live Demo
 
 [🚀 Try it on Hugging Face Spaces](https://huggingface.co/spaces/Archanacreates/benefits-copilot)
